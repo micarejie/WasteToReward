@@ -47,7 +47,7 @@ export default async function ProjectsPage({
     return (
       <div className={`${container} py-14`}>
         <p className="text-sm font-medium text-primary">Work</p>
-        <h1 className="mt-2 text-4xl font-semibold text-heading">Projects</h1>
+        <h1 className="section-title mt-2">Projects</h1>
         <p className="mt-3 max-w-2xl text-muted">A collection of applications and exercises. Open a project for the problem, the process, and what I learned.</p>
         <div className="mt-8">
           <ProjectFilters categories={categories} technologies={technologies} values={params} />

@@ -16,6 +16,7 @@ The sample content is a starting point, not a finished biography.
 - Two certificate rows are labeled as samples and are not featured. Delete them and add certificates you actually earned. Do not keep placeholder credentials.
 - The resume at `public/resume.pdf` is a sample. Replace the file, or upload a PDF from the profile editor once Supabase Storage is connected.
 - The portrait at `public/images/profile.jpg` is a generated stand-in. Replace it with your own photo.
+- The homepage types “I am a …” from the profile roles. Edit those roles, one per line, at `/admin/profile`.
 
 ## Prerequisites
 
@@ -62,7 +63,7 @@ When both the Supabase URL and a public key are set, the local preview turns off
 
 ## Run the database migration
 
-Open the Supabase **SQL Editor**, paste the contents of `supabase/migrations/0001_init.sql`, and run it once.
+Open the Supabase **SQL Editor**, paste the contents of `supabase/migrations/0001_init.sql`, and run it once. If this database was created before the homepage roles existed, also run `supabase/migrations/0002_profile_roles.sql`. Fresh installs already include that column in `0001_init.sql`.
 
 The migration creates:
 

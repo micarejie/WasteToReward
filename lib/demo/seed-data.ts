@@ -1,6 +1,6 @@
 import type { BlogPost, Certificate, Profile, Project } from "@/types/portfolio";
 
-export const SEED_VERSION = 1;
+export const SEED_VERSION = 3;
 
 const now = "2026-04-18T02:00:00.000Z";
 
@@ -25,6 +25,7 @@ export const seedProfile: Profile = {
   ],
   career_goals:
     "I am looking for an internship where I can help build real web applications, practice databases and interface design, and grow into a dependable junior developer.",
+  roles: ["an IT Student", "a Web Developer", "a Programmer"],
   skills: [
     { name: "HTML", category: "Frontend Development", level: "Comfortable" },
     { name: "CSS", category: "Frontend Development", level: "Comfortable" },

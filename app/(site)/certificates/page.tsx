@@ -22,7 +22,7 @@ export default async function CertificatesPage() {
   return (
       <div className={`${container} py-14`}>
         <p className="text-sm font-medium text-primary">Records</p>
-        <h1 className="mt-2 text-4xl font-semibold text-heading">Certificates and achievements</h1>
+        <h1 className="section-title mt-2">Certificates and achievements</h1>
         <p className="mt-3 max-w-2xl text-muted">
           Only documents you add belong here. The sample cards, if they are still present, are layout placeholders and are not credentials.
         </p>

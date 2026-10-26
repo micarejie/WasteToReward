@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Geist, Geist_Mono } from "next/font/google";
+import { Caveat, Geist, Geist_Mono, Inter } from "next/font/google";
 import { AppShell } from "@/components/AppShell";
 import { AppToaster } from "@/components/AppToaster";
 import { getProfile } from "@/lib/data/repository";
@@ -20,6 +20,11 @@ const geistMono = Geist_Mono({
 
 const caveat = Caveat({
   variable: "--font-script",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -51,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();`;
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let profile = null;
@@ -63,7 +68,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const demo = isDemoMode();
 
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} ${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

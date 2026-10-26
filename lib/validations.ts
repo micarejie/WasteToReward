@@ -58,6 +58,7 @@ export const profileSchema = z.object({
   interests: z.array(z.string().trim().min(2).max(40)).max(12).default([]),
   strengths: z.array(z.string().trim().min(2).max(180)).max(8).default([]),
   career_goals: z.string().trim().max(1000).default(""),
+  roles: z.array(z.string().trim().min(2).max(40)).max(8).default([]),
   skills: z.array(skillSchema).max(40).default([]),
   education: z.array(educationSchema).max(8).default([]),
 });

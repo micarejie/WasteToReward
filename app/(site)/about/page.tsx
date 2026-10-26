@@ -46,7 +46,7 @@ export default async function AboutPage() {
           </div>
           <div>
             <p className="text-sm font-medium text-primary">About</p>
-            <h1 className="mt-2 text-4xl font-semibold text-heading">About me</h1>
+            <h1 className="section-title mt-2">About me</h1>
             <p className="mt-2 text-lg text-foreground">{profile.headline}</p>
             <p className="mt-4 max-w-2xl leading-7 text-muted">{profile.bio}</p>
             <ul className="mt-6 space-y-2 text-sm text-foreground">

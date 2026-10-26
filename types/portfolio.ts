@@ -46,6 +46,7 @@ export type Profile = {
   interests: string[];
   strengths: string[];
   career_goals: string;
+  roles: string[];
   skills: Skill[];
   education: EducationItem[];
   created_at: string;

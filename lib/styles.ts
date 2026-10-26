@@ -13,6 +13,6 @@ export const card =
   "rounded-3xl border border-border bg-surface shadow-card";
 
 export const field =
-  "w-full rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted/80 focus:border-primary";
+  "w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted/80 focus:border-primary";
 
 export const labelClass = "mb-2 block text-sm font-medium text-heading";

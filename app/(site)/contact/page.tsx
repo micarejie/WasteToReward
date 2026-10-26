@@ -23,7 +23,7 @@ export default async function ContactPage() {
       <div className={`${container} grid gap-10 py-14 lg:grid-cols-[0.85fr_1.15fr]`}>
         <div>
           <p className="text-sm font-medium text-primary">Hello</p>
-          <h1 className="mt-2 text-4xl font-semibold text-heading">Contact me</h1>
+          <h1 className="section-title mt-2">Contact me</h1>
           <p className="mt-4 max-w-md leading-7 text-muted">
             Send a note about a project, a class question, or an internship. Messages are saved privately for the site administrator. They are not shown on the public site.
           </p>

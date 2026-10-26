@@ -50,7 +50,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<Para
           </Link>{" "}
           / {post.category}
         </p>
-        <h1 className="mt-3 max-w-3xl text-4xl font-semibold text-heading">{post.title}</h1>
+        <h1 className="section-title mt-3 max-w-3xl">{post.title}</h1>
         <p className="mt-4 text-sm text-muted">
           {formatDate(post.published_at ?? post.created_at)} · {minutes} min read
         </p>

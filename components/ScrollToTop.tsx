@@ -18,7 +18,7 @@ export function ScrollToTop() {
   return (
     <button
       type="button"
-      className="fixed bottom-5 right-5 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-card transition hover:brightness-110"
+      className="scroll-top fixed bottom-5 right-5 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-card transition hover:brightness-110"
       aria-label="Scroll to top"
       onClick={() => {
         const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

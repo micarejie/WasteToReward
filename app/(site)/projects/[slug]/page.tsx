@@ -47,7 +47,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<Pa
           </Link>{" "}
           / {project.category}
         </p>
-        <h1 className="mt-3 max-w-3xl text-4xl font-semibold text-heading">{project.title}</h1>
+        <h1 className="section-title mt-3 max-w-3xl">{project.title}</h1>
         <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">{project.description}</p>
         <div className="mt-4 flex flex-wrap gap-2 text-sm">
           <span className="rounded-full bg-primary-soft px-3 py-1 text-heading">{project.status}</span>

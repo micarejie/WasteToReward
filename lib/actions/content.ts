@@ -193,6 +193,7 @@ export async function saveProfileAction(_prev: ActionState, formData: FormData):
     interests: splitLines(String(formData.get("interests") ?? "")),
     strengths: splitLines(String(formData.get("strengths") ?? "")),
     career_goals: formData.get("career_goals"),
+    roles: splitLines(String(formData.get("roles") ?? "")),
     skills: readJsonArray(formData.get("skills_json")),
     education: readJsonArray(formData.get("education_json")),
   });

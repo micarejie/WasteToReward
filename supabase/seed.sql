@@ -6,7 +6,7 @@
 
 insert into public.profiles (
   id, full_name, headline, tagline, motto, bio, email, avatar_url, resume_url,
-  github_url, linkedin_url, location, interests, strengths, career_goals, skills, education, created_at, updated_at
+  github_url, linkedin_url, location, interests, strengths, career_goals, roles, skills, education, created_at, updated_at
 )
 select
   '11111111-1111-4111-8111-111111111111'::uuid,
@@ -24,6 +24,7 @@ select
   array['Web Development', 'Databases', 'UI/UX Design', 'Tech and Gadgets'],
   array['I break a feature into small pieces before I start coding.', 'I pay attention to contrast, spacing, and keyboard access.', 'I keep notes on what I learn so the next project is easier.'],
   'I am looking for an internship where I can help build real web applications, practice databases and interface design, and grow into a dependable junior developer.',
+  array['an IT Student', 'a Web Developer', 'a Programmer'],
   '[{"name":"HTML","category":"Frontend Development","level":"Comfortable"},{"name":"CSS","category":"Frontend Development","level":"Comfortable"},{"name":"JavaScript","category":"Frontend Development","level":"Comfortable"},{"name":"Tailwind CSS","category":"Frontend Development","level":"Learning"},{"name":"React","category":"Frontend Development","level":"Learning"},{"name":"Next.js","category":"Frontend Development","level":"Learning"},{"name":"PHP","category":"Backend Development","level":"Familiar"},{"name":"PostgreSQL","category":"Database Management","level":"Learning"},{"name":"Supabase","category":"Database Management","level":"Learning"},{"name":"JavaScript","category":"Programming Languages","level":"Comfortable"},{"name":"PHP","category":"Programming Languages","level":"Familiar"},{"name":"SQL","category":"Programming Languages","level":"Learning"},{"name":"Figma","category":"UI/UX Design","level":"Familiar"},{"name":"Git and GitHub","category":"Development Tools","level":"Comfortable"},{"name":"Visual Studio Code","category":"Development Tools","level":"Comfortable"}]'::jsonb,
   '[{"school":"Add your college or university","credential":"Bachelor of Science in Information Technology","period":"In progress","location":"Philippines","details":"Coursework and personal practice in web development, databases, and software fundamentals. Replace this entry with your school, year level, and subjects.","status":"In progress"}]'::jsonb,
   '2026-01-15T00:00:00.000Z'::timestamptz,

@@ -45,7 +45,7 @@ export default async function BlogPage({
     return (
       <div className={`${container} py-14`}>
         <p className="text-sm font-medium text-primary">Learning journal</p>
-        <h1 className="mt-2 text-4xl font-semibold text-heading">Blog</h1>
+        <h1 className="section-title mt-2">Blog</h1>
         <p className="mt-3 max-w-2xl text-muted">Notes from studying, building, and figuring out what to try next. Drafts stay in the dashboard until they are published.</p>
         <div className="mt-8">
           <BlogFilters categories={categories} values={params} />

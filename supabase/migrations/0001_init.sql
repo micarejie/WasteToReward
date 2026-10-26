@@ -66,6 +66,7 @@ create table public.profiles (
   interests text[] not null default '{}',
   strengths text[] not null default '{}',
   career_goals text not null default '',
+  roles text[] not null default '{}',
   skills jsonb not null default '[]'::jsonb,
   education jsonb not null default '[]'::jsonb,
   singleton boolean not null default true unique check (singleton),

@@ -41,6 +41,10 @@ export function ProfileForm({ profile }: { profile: Profile }) {
       <div className="grid gap-4 md:grid-cols-2">
         <Text name="full_name" label="Full name" defaultValue={profile.full_name} required />
         <Text name="headline" label="Headline" defaultValue={profile.headline} />
+        <label className="md:col-span-2">
+          <span className={labelClass}>Rotating roles, one per line</span>
+          <textarea className={field} name="roles" defaultValue={(profile.roles ?? []).join("\n")} placeholder={"an IT Student\na Web Developer"} />
+        </label>
         <Text name="tagline" label="Tagline" defaultValue={profile.tagline} />
         <Text name="motto" label="Short motto" defaultValue={profile.motto} />
         <Text name="email" label="Email" defaultValue={profile.email} type="email" required />
