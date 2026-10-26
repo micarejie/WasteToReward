@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Study notes">
+  <rect width="640" height="400" fill="#E7F2EC"/>
+  <rect x="28" y="24" width="584" height="352" rx="24" fill="#FFFFFF" stroke="#D7E6DE"/>
+  <rect x="48" y="44" width="120" height="12" rx="6" fill="#2F6F56"/>
+  <rect x="180" y="46" width="70" height="8" rx="4" fill="#D7E6DE"/>
+  <rect x="258" y="46" width="54" height="8" rx="4" fill="#D7E6DE"/>
+  <text x="500" y="56" fill="#1D4A38" font-family="Georgia, serif" font-size="16">Study</text>
+  <rect x="70" y="120" width="150" height="180" rx="16" fill="#FFFFFF" stroke="#D7E6DE"/>
+     <rect x="245" y="90" width="150" height="210" rx="16" fill="#1D4A38"/>
+     <rect x="420" y="140" width="150" height="160" rx="16" fill="#FFFFFF" stroke="#D7E6DE"/>
+     <rect x="92" y="150" width="100" height="8" rx="4" fill="#A7B8AE"/>
+     <rect x="267" y="130" width="100" height="8" rx="4" fill="#8FCEB0"/>
+     <rect x="442" y="170" width="100" height="8" rx="4" fill="#A7B8AE"/>
+</svg>

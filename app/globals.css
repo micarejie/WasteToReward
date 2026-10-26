@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #000000;
+  --surface: #14141c;
+  --surface-muted: #1c1c28;
+  --foreground: #e7e7f0;
+  --muted: #a3a3b5;
+  --heading: #ffffff;
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+  --primary-soft: #24143d;
+  --border: #3b2b58;
+  --danger: #f0b4b4;
+  --danger-soft: #3a2424;
+  --shadow: 0 24px 60px -32px rgb(88 28 135 / 0.65);
+  --ring: #a78bfa;
+  color-scheme: dark;
+}
+
+.light {
+  --background: #f7f5fb;
+  --surface: #ffffff;
+  --surface-muted: #f3effa;
+  --foreground: #2c2640;
+  --muted: #655d78;
+  --heading: #1b1233;
+  --primary: #6d28d9;
+  --primary-foreground: #ffffff;
+  --primary-soft: #efe7fb;
+  --border: #e3d9f2;
+  --danger: #8d3b3b;
+  --danger-soft: #f8ecec;
+  --shadow: 0 18px 40px -28px rgb(76 29 149 / 0.35);
+  --ring: #6d28d9;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-heading: var(--heading);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-border: var(--border);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-script: var(--font-script);
+  --shadow-card: var(--shadow);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 0.45), transparent),
+    radial-gradient(1px 1px at 72% 28%, rgb(167 139 250 / 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgb(255 255 255 / 0.28), transparent),
+    radial-gradient(1px 1px at 88% 78%, rgb(96 165 250 / 0.55), transparent);
+  background-size: 240px 240px, 320px 320px, 280px 280px, 360px 360px;
+  color: var(--foreground);
+  font-family: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.text-gradient {
+  background-image: linear-gradient(90deg, #ffffff 0%, #d8b4fe 38%, #60a5fa 100%);
+  background-clip: text;
+  color: transparent;
+}
+
+.light .text-gradient {
+  background-image: linear-gradient(90deg, #4c1d95 0%, #7c3aed 46%, #2563eb 100%);
+}
+
+.glow-frame {
+  box-shadow:
+    0 0 0 2px rgb(139 92 246 / 0.75),
+    0 0 42px rgb(139 92 246 / 0.45);
+}
+
+.section-title {
+  background-image: linear-gradient(90deg, #e9d5ff, #a78bfa 40%, #c4b5fd);
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.light .section-title {
+  background-image: linear-gradient(90deg, #5b21b6, #7c3aed 50%, #1d4ed8);
+}
+
+html.menu-open .scroll-top {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.reveal-in {
+  animation: rise 0.7s ease forwards;
+}
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--primary-soft);
+  color: var(--heading);
+}
+
+.prose-portfolio h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.prose-portfolio h3 {
+  margin-top: 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.prose-portfolio p,
+.prose-portfolio ul,
+.prose-portfolio ol,
+.prose-portfolio blockquote {
+  margin-top: 0.9rem;
+  line-height: 1.75;
+}
+
+.prose-portfolio ul,
+.prose-portfolio ol {
+  padding-left: 1.25rem;
+}
+
+.prose-portfolio ul {
+  list-style: disc;
+}
+
+.prose-portfolio ol {
+  list-style: decimal;
+}
+
+.prose-portfolio a {
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-portfolio blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 1rem;
+  color: var(--muted);
+}
+
+.prose-portfolio code {
+  border-radius: 0.4rem;
+  background: var(--primary-soft);
+  padding: 0.1rem 0.35rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.92em;
+}
+
+.prose-portfolio pre {
+  margin-top: 1rem;
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  padding: 1rem;
+}
+
+.prose-portfolio pre code {
+  background: transparent;
+  padding: 0;
+}
