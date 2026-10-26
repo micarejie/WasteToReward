@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Waste-to-Reward preview">
+  <rect width="640" height="400" fill="#E7F2EC"/>
+  <rect x="28" y="24" width="584" height="352" rx="24" fill="#FFFFFF" stroke="#D7E6DE"/>
+  <rect x="48" y="44" width="120" height="12" rx="6" fill="#2F6F56"/>
+  <rect x="180" y="46" width="70" height="8" rx="4" fill="#D7E6DE"/>
+  <rect x="258" y="46" width="54" height="8" rx="4" fill="#D7E6DE"/>
+  <text x="500" y="56" fill="#1D4A38" font-family="Georgia, serif" font-size="16">Points</text>
+  <rect x="52" y="84" width="170" height="250" rx="18" fill="#F7FAF8" stroke="#E1E8E4"/>
+     <circle cx="137" cy="150" r="36" fill="#2F6F56"/>
+     <rect x="86" y="204" width="102" height="10" rx="5" fill="#1D4A38"/>
+     <rect x="96" y="224" width="82" height="8" rx="4" fill="#A7B8AE"/>
+     <rect x="242" y="84" width="330" height="74" rx="16" fill="#F4F7F5"/>
+     <rect x="262" y="106" width="150" height="12" rx="6" fill="#1D4A38"/>
+     <rect x="262" y="128" width="220" height="8" rx="4" fill="#A7B8AE"/>
+     <rect x="242" y="172" width="156" height="162" rx="16" fill="#FFFFFF" stroke="#E1E8E4"/>
+     <rect x="262" y="194" width="40" height="40" rx="12" fill="#8FCEB0"/>
+     <rect x="314" y="206" width="64" height="8" rx="4" fill="#1D4A38"/>
+     <rect x="416" y="172" width="156" height="162" rx="16" fill="#FFFFFF" stroke="#E1E8E4"/>
+     <rect x="436" y="194" width="40" height="40" rx="12" fill="#1D4A38"/>
+     <rect x="488" y="206" width="64" height="8" rx="4" fill="#1D4A38"/>
+</svg>

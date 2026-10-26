@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="FoodLink preview">
+  <rect width="640" height="400" fill="#E7F2EC"/>
+  <rect x="28" y="24" width="584" height="352" rx="24" fill="#FFFFFF" stroke="#D7E6DE"/>
+  <rect x="48" y="44" width="120" height="12" rx="6" fill="#2F6F56"/>
+  <rect x="180" y="46" width="70" height="8" rx="4" fill="#D7E6DE"/>
+  <rect x="258" y="46" width="54" height="8" rx="4" fill="#D7E6DE"/>
+  <text x="500" y="56" fill="#1D4A38" font-family="Georgia, serif" font-size="16">Menu</text>
+  <rect x="52" y="84" width="360" height="250" rx="18" fill="#F7FAF8"/>
+     <rect x="72" y="104" width="150" height="96" rx="16" fill="#FFFFFF" stroke="#E1E8E4"/>
+     <circle cx="147" cy="140" r="22" fill="#2F6F56"/>
+     <rect x="92" y="168" width="110" height="8" rx="4" fill="#1D4A38"/>
+     <rect x="236" y="104" width="150" height="96" rx="16" fill="#FFFFFF" stroke="#E1E8E4"/>
+     <circle cx="311" cy="140" r="22" fill="#8FCEB0"/>
+     <rect x="256" y="168" width="110" height="8" rx="4" fill="#1D4A38"/>
+     <rect x="72" y="216" width="314" height="96" rx="16" fill="#FFFFFF" stroke="#E1E8E4"/>
+     <rect x="92" y="238" width="180" height="10" rx="5" fill="#1D4A38"/>
+     <rect x="92" y="258" width="120" height="8" rx="4" fill="#A7B8AE"/>
+     <rect x="292" y="246" width="74" height="28" rx="14" fill="#2F6F56"/>
+     <rect x="432" y="84" width="156" height="250" rx="18" fill="#1D4A38"/>
+     <rect x="452" y="112" width="90" height="10" rx="5" fill="#E7F2EC"/>
+     <rect x="452" y="146" width="116" height="28" rx="8" fill="#2F6F56"/>
+     <rect x="452" y="186" width="116" height="28" rx="8" fill="#2F6F56"/>
+     <rect x="452" y="270" width="116" height="36" rx="18" fill="#8FCEB0"/>
+</svg>

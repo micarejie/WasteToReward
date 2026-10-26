@@ -1,0 +1,49 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Count 1 /Kids [3 0 R] >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
+4 0 obj << /Length 837 >> stream
+BT
+/F1 12 Tf
+50 760 Td
+16 TL
+(SAMPLE RESUME  -  replace this file with your own) Tj
+T* () Tj
+T* (Mica Dames) Tj
+T* (IT Student & Aspiring Developer) Tj
+T* (Philippines) Tj
+T* (hello@example.com) Tj
+T* (github.com/micarejie) Tj
+T* () Tj
+T* (This PDF is placeholder content for the portfolio download button.) Tj
+T* (Edit the profile in the admin dashboard and upload your real resume.) Tj
+T* () Tj
+T* (Education) Tj
+T* (Bachelor of Science in Information Technology  -  in progress) Tj
+T* (Add your college or university) Tj
+T* () Tj
+T* (Focus) Tj
+T* (Web development, databases, and interface design.) Tj
+T* () Tj
+T* (Sample projects) Tj
+T* (Waste-to-Reward, FoodLink, Personal Portfolio) Tj
+T* () Tj
+T* (Skills in progress) Tj
+T* (HTML, CSS, JavaScript, Tailwind CSS, React, Next.js,) Tj
+T* (PHP, PostgreSQL, Supabase, Git, Figma) Tj
+ET
+endstream
+endobj
+5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001129 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+1199
+%%EOF
