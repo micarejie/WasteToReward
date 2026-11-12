@@ -195,6 +195,9 @@ Supabase variables are missing and the local preview is off. In development, lea
 **Sign-in says the account is not an administrator.**  
 The Auth user exists, but `admins` has no row for that user id. Run `scripts/create-admin.mjs`, or insert the user id yourself with the SQL editor using the service role. Do not add an insert policy that lets users add themselves.
 
+**Sign-in shows a JSON error about `'<'` / “invalid start of a value” / “Unexpected token '<'`.**  
+The app expected a JSON auth response but received an HTML page (HTML starts with `<`). That almost always means `NEXT_PUBLIC_SUPABASE_URL` is wrong — for example the deployed website URL instead of the Supabase Project URL from **Project Settings → API** (`https://xxxx.supabase.co`). Fix the env var, redeploy, and create the administrator with `scripts/create-admin.mjs`. There is no public registration page on this site.
+
 **Password reset never arrives.**  
 Confirm the site URL and `/auth/callback` redirect in Supabase Auth. The local preview cannot send reset email.
 

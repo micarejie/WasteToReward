@@ -25,8 +25,41 @@ export function supabaseKey() {
   );
 }
 
+export function supabaseUrl() {
+  return (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim().replace(/\/$/, "");
+}
+
+/** True when URL + key exist. Does not prove the URL is a live Supabase project. */
 export function isSupabaseConfigured() {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && supabaseKey());
+  const url = supabaseUrl();
+  if (!url || !supabaseKey()) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" || parsed.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Heuristic for common misconfiguration: pointing the app at the site itself
+ * (or another HTML host) instead of the Supabase API origin.
+ */
+export function supabaseUrlLooksLikeProjectApi() {
+  const url = supabaseUrl();
+  if (!url) return false;
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    if (host === "localhost" || host === "127.0.0.1") return false;
+    if (host.endsWith(".supabase.co") || host.endsWith(".supabase.in")) return true;
+    // Custom Supabase domains are allowed; reject only obvious website hosts.
+    if (host.endsWith(".vercel.app") || host.endsWith(".netlify.app") || host.endsWith(".github.io")) {
+      return false;
+    }
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function absoluteUrl(path: string) {

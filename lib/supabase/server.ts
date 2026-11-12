@@ -1,14 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
-import { isSupabaseConfigured, supabaseKey } from "@/lib/site";
+import { isSupabaseConfigured, supabaseKey, supabaseUrl } from "@/lib/site";
 
 export async function createClient() {
   if (!isSupabaseConfigured()) {
     throw new Error("Supabase is not configured.");
   }
   const cookieStore = await cookies();
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, supabaseKey(), {
+  return createServerClient(supabaseUrl(), supabaseKey(), {
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -28,7 +28,7 @@ export function createAnonClient() {
   if (!isSupabaseConfigured()) {
     throw new Error("Supabase is not configured.");
   }
-  return createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, supabaseKey(), {
+  return createSupabaseClient(supabaseUrl(), supabaseKey(), {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
       fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
