@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { isDemoMode, demoSessionToken } from "@/lib/demo/mode";
-import { isSupabaseConfigured, supabaseKey } from "@/lib/site";
+import { isSupabaseConfigured, supabaseKey, supabaseUrl } from "@/lib/site";
 import { safeNextPath } from "@/lib/utils";
 
 export async function updateSession(request: NextRequest) {
@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   let supabaseResponse = NextResponse.next({ request });
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, supabaseKey(), {
+  const supabase = createServerClient(supabaseUrl(), supabaseKey(), {
     cookies: {
       getAll() {
         return request.cookies.getAll();

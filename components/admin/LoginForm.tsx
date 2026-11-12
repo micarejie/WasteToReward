@@ -11,7 +11,7 @@ export function LoginForm({
   errorCode,
   nextPath,
 }: {
-  mode: "demo" | "supabase" | "unconfigured";
+  mode: "demo" | "supabase" | "unconfigured" | "bad-url";
   errorCode?: string;
   nextPath: string;
 }) {
@@ -26,6 +26,7 @@ export function LoginForm({
         : errorCode === "unconfigured"
           ? "Supabase is not configured for this deployment."
           : "";
+  const signInDisabled = pending || mode === "unconfigured" || mode === "bad-url";
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-5 py-16">
@@ -42,6 +43,11 @@ export function LoginForm({
           Add Supabase keys or run the site in development to use the local preview.
         </p>
       ) : null}
+      {mode === "bad-url" ? (
+        <p className="mt-4 rounded-2xl bg-danger-soft px-4 py-3 text-sm text-danger">
+          NEXT_PUBLIC_SUPABASE_URL is set to something that looks like a website, not the Supabase project API. Use the Project URL from Supabase → Project Settings → API (https://xxxx.supabase.co). Pointing auth at an HTML page causes JSON parse errors such as “&lt; is an invalid start of a value”.
+        </p>
+      ) : null}
       {banner ? <p className="mt-4 text-sm text-danger">{banner}</p> : null}
       <form action={action} className="mt-6 space-y-4">
         <input type="hidden" name="next" value={nextPath} />
@@ -54,7 +60,7 @@ export function LoginForm({
           <input className={field} name="password" type="password" autoComplete="current-password" required />
         </label>
         {state.error ? <p className="text-sm text-danger">{state.error}</p> : null}
-        <button className={primaryButton} type="submit" disabled={pending || mode === "unconfigured"}>
+        <button className={primaryButton} type="submit" disabled={signInDisabled}>
           {pending ? "Signing in…" : "Sign in"}
         </button>
       </form>

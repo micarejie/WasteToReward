@@ -27,7 +27,13 @@ const { data, error } = await supabase.auth.admin.createUser({
 });
 
 if (error || !data.user) {
-  console.error(error?.message || "The administrator account could not be created.");
+  const message = error?.message || "The administrator account could not be created.";
+  console.error(message);
+  if (/invalid start of a value|Unexpected token '<'|not valid JSON|invalid character '<'/i.test(message)) {
+    console.error(
+      "The server returned HTML instead of JSON. NEXT_PUBLIC_SUPABASE_URL must be the Supabase Project URL (https://xxxx.supabase.co), not your website URL.",
+    );
+  }
   process.exit(1);
 }
 

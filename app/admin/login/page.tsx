@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { LoginForm } from "@/components/admin/LoginForm";
 import { getAdminSession } from "@/lib/auth";
 import { isDemoMode } from "@/lib/demo/mode";
-import { isSupabaseConfigured } from "@/lib/site";
+import { isSupabaseConfigured, supabaseUrlLooksLikeProjectApi } from "@/lib/site";
 import { safeNextPath } from "@/lib/utils";
 
 export default async function LoginPage({
@@ -13,6 +13,12 @@ export default async function LoginPage({
   const params = await searchParams;
   const session = await getAdminSession();
   if (session.status === "ok") redirect(safeNextPath(params.next));
-  const mode = isSupabaseConfigured() ? "supabase" : isDemoMode() ? "demo" : "unconfigured";
+  const mode = !isSupabaseConfigured()
+    ? isDemoMode()
+      ? "demo"
+      : "unconfigured"
+    : supabaseUrlLooksLikeProjectApi()
+      ? "supabase"
+      : "bad-url";
   return <LoginForm mode={mode} errorCode={params.error} nextPath={safeNextPath(params.next)} />;
 }
