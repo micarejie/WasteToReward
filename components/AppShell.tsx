@@ -17,8 +17,7 @@ export function AppShell({
   demo: boolean;
 }) {
   const pathname = usePathname();
-  // EcoReward landing and admin screens bring their own chrome.
-  if (pathname === "/" || pathname.startsWith("/admin")) return children;
+  if (pathname.startsWith("/admin")) return children;
 
   return (
     <div className="flex min-h-screen flex-col">
