@@ -29,27 +29,16 @@ const inter = Inter({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  let name = "IT Student Portfolio";
-  let description = "A portfolio of projects, studies, and learning notes from an information technology student.";
-  try {
-    const profile = await getProfile();
-    if (profile) {
-      name = profile.full_name;
-      description = profile.tagline || profile.bio || description;
-    }
-  } catch {
-    // Metadata falls back when the database is unavailable.
-  }
   return {
     metadataBase: new URL(siteUrl()),
     title: {
-      default: `${name} | IT Student Portfolio`,
-      template: `%s | ${name}`,
+      default: "EcoReward | Turn Waste Into Rewards",
+      template: "%s | EcoReward",
     },
-    description,
+    description: "Recycle and earn points for gift cards, eco gadgets, and discount vouchers.",
     openGraph: {
       type: "website",
-      siteName: name,
+      siteName: "EcoReward",
       locale: "en_PH",
     },
     robots: { index: true, follow: true },
