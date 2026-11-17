@@ -1,0 +1,889 @@
+@* EcoReward public home — shows landing first; login only via Sign In *@
+@page "/"
+@attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@layout Layout.EmptyLayout
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>EcoReward | Home</PageTitle>
+
+
+<style>
+    .eco-landing {
+        --primary-green: #22c55e;
+        --primary-dark: #16a34a;
+        --bg-light: #f8fafc;
+        --white: #ffffff;
+        --text-dark: #1e293b;
+        --text-muted: #64748b;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        min-height: 100vh;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        overflow-x: hidden;
+    }
+
+        .eco-landing.menu-open {
+            overflow: hidden;
+        }
+
+    .icon-green {
+        color: #16a34a;
+    }
+
+    .eco-nav {
+        background: var(--white);
+        padding: 1rem 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--text-dark);
+        text-decoration: none;
+    }
+
+    .logo-icon {
+        background: #dcfce7;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        color: #16a34a;
+        transition: background 0.3s ease;
+    }
+
+    .logo:hover .logo-icon {
+        background: #bbf7d0;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 3rem;
+        list-style: none;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease-in-out;
+        }
+
+            .nav-links a:hover {
+                color: var(--primary-green);
+            }
+
+    .auth-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        background: transparent;
+        font: inherit;
+    }
+
+    .btn-login {
+        color: var(--text-muted);
+    }
+
+        .btn-login:hover {
+            color: var(--text-dark);
+            background-color: #f1f5f9;
+        }
+
+    .btn-register {
+        background: var(--primary-green);
+        color: white;
+    }
+
+        .btn-register:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+    .mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-dark);
+        padding: 0;
+    }
+
+    .nav-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(4px);
+        z-index: 40;
+    }
+
+    .mobile-auth {
+        display: none;
+    }
+
+    .eco-main {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .hero {
+        position: relative;
+        background: linear-gradient(to bottom right, #f0fdf4, #eff6ff);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        border: 1px solid #dcfce7;
+    }
+
+    .hero-copy {
+        flex: 1;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    .hero .accent {
+        color: #16a34a;
+    }
+
+    .hero-sub {
+        font-size: 1.125rem;
+        color: #475569;
+        margin: 0;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .cta-primary {
+        background: #16a34a;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        transition: background 0.2s ease;
+        font: inherit;
+    }
+
+        .cta-primary:hover {
+            background: #15803d;
+        }
+
+    .cta-secondary {
+        display: inline-block;
+        background: white;
+        color: #334155;
+        padding: 0.75rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        border: 1px solid #e2e8f0;
+        text-decoration: none;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        transition: background 0.2s ease;
+    }
+
+        .cta-secondary:hover {
+            background: #f8fafc;
+        }
+
+    .hero-media {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+        .hero-media img {
+            width: 100%;
+            max-width: 28rem;
+            border-radius: 1rem;
+        }
+
+    .feature-strip {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border: 1px solid #f1f5f9;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .feature-icon {
+        background: #dcfce7;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        color: #16a34a;
+        display: flex;
+        flex-shrink: 0;
+    }
+
+    .feature-item h3 {
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 0.25rem;
+    }
+
+    .feature-item p {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin: 0;
+    }
+
+    .rewards-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .section-head {
+        text-align: center;
+    }
+
+        .section-head h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.5rem;
+        }
+
+        .section-head p {
+            color: #64748b;
+            margin: 0;
+        }
+
+    .rewards-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .reward-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: 1px solid #f1f5f9;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        transition: box-shadow 0.2s ease;
+    }
+
+        .reward-card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+    .reward-preview {
+        height: 12rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .reward-orange {
+        background: #fff7ed;
+        color: #fb923c;
+    }
+
+    .reward-blue {
+        background: #eff6ff;
+        color: #60a5fa;
+    }
+
+    .reward-red {
+        background: #fef2f2;
+    }
+
+    .discount-badge {
+        color: #f87171;
+        font-weight: 900;
+        font-size: 2.25rem;
+    }
+
+    .reward-card h4 {
+        font-weight: 700;
+        text-align: center;
+        margin: 0 0 0.25rem;
+    }
+
+    .reward-card p {
+        font-size: 0.875rem;
+        color: #64748b;
+        text-align: center;
+        margin: 0;
+    }
+
+    .cta-panels {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .panel {
+        padding: 2rem;
+        border-radius: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .panel-green {
+        background: #f0fdf4;
+        border: 1px solid #dcfce7;
+    }
+
+    .panel-slate {
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+    }
+
+    .panel h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 0.5rem;
+    }
+
+    .panel p {
+        color: #475569;
+        font-size: 0.875rem;
+        margin: 0 0 1rem;
+    }
+
+    .panel-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font: inherit;
+        transition: background 0.2s ease;
+    }
+
+    .panel-btn-green {
+        background: #15803d;
+    }
+
+        .panel-btn-green:hover {
+            background: #166534;
+        }
+
+    .panel-btn-slate {
+        background: #334155;
+    }
+
+        .panel-btn-slate:hover {
+            background: #1e293b;
+        }
+
+    .panel-decor {
+        flex-shrink: 0;
+    }
+
+    .panel-decor-green {
+        color: #bbf7d0;
+    }
+
+    .panel-decor-slate {
+        color: #cbd5e1;
+    }
+
+    .eco-footer {
+        background: white;
+        border-top: 1px solid #f1f5f9;
+        padding: 1.5rem 0;
+    }
+
+    .footer-inner {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 3rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #64748b;
+    }
+
+    .footer-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 1rem;
+    }
+
+    .modal-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 1.25rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    }
+
+    .modal-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .modal-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 9999px;
+        background: #dcfce7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-header h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+    }
+
+    .modal-header p {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin: 0.25rem 0 0;
+    }
+
+    .tips-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: left;
+    }
+
+    .tip {
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 0.75rem;
+        border: 1px solid #f1f5f9;
+    }
+
+        .tip h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #15803d;
+            text-transform: uppercase;
+            margin: 0 0 0.25rem;
+        }
+
+        .tip p {
+            font-size: 13px;
+            color: #475569;
+            margin: 0;
+        }
+
+    .modal-confirm {
+        width: 100%;
+        margin-top: 1.25rem;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .hero {
+            flex-direction: row;
+            padding: 4rem;
+        }
+
+            .hero h1 {
+                font-size: 3.75rem;
+                line-height: 1.1;
+            }
+
+        .feature-strip {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .feature-mid {
+            border-left: 1px solid #f1f5f9;
+            border-right: 1px solid #f1f5f9;
+            padding: 0 2rem;
+        }
+
+        .rewards-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .cta-panels {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .nav-links {
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mobile-toggle {
+            display: block;
+            z-index: 60;
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 75%;
+            height: 100vh;
+            background: white;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2.5rem;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.25rem;
+            }
+
+        .auth-buttons {
+            display: none;
+        }
+
+        .mobile-auth {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+            .mobile-auth .btn-login {
+                border: 1px solid #f1f5f9;
+            }
+    }
+</style>
+
+<div class="eco-landing @(MenuOpen ? "menu-open" : null)">
+    @if (MenuOpen)
+    {
+        <div class="nav-overlay" @onclick="CloseMenu"></div>
+    }
+
+    <nav class="eco-nav">
+        <a href="/" class="logo" @onclick:preventDefault @onclick="GoHome">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5" /><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12" /><path d="m14 16-3 3 3 3" /><path d="M8.293 13.596 7.196 9.5 3.1 10.598" /><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843" /><path d="m13.378 9.633 4.096 1.098 1.097-4.096" /></svg>
+            </div>
+            EcoReward
+        </a>
+
+        <ul class="nav-links @(MenuOpen ? "active" : null)">
+            <li><a href="/" @onclick:preventDefault @onclick="GoHome">Home</a></li>
+            <li><a href="/about" @onclick="CloseMenu">About</a></li>
+            <li><a href="/rewards" @onclick="CloseMenu">Rewards</a></li>
+            <li><a href="/contact" @onclick="CloseMenu">Contact</a></li>
+            <li class="mobile-auth">
+                <button type="button" class="btn btn-login w-full" @onclick="GoLogin">Sign In</button>
+                <button type="button" class="btn btn-register w-full" @onclick="GoRegister">Register</button>
+            </li>
+        </ul>
+
+        <div class="auth-buttons">
+            <button type="button" class="btn btn-login" @onclick="GoLogin">Sign In</button>
+            <button type="button" class="btn btn-register" @onclick="GoRegister">Register</button>
+        </div>
+
+        <button type="button" class="mobile-toggle" @onclick="ToggleMenu" aria-label="Toggle menu">
+            @if (MenuOpen)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+            }
+            else
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></svg>
+            }
+        </button>
+    </nav>
+
+    <main class="eco-main">
+        <section class="hero">
+            <div class="hero-copy">
+                <h1>
+                    Turn Your <span class="accent">Waste</span><br />
+                    Into <span class="accent">Rewards!</span>
+                </h1>
+                <p class="hero-sub">Recycle &amp; Earn Points for Great Rewards</p>
+                <div class="hero-actions">
+                    <button type="button" class="cta-primary" @onclick="GoRegister">Join Now</button>
+                    <a href="/learn-more" class="cta-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-media">
+                <img src="https://img.freepik.com/free-vector/recycling-concept-illustration_114360-9851.jpg"
+                     alt="Recycling Illustration" />
+            </div>
+        </section>
+
+        <div class="feature-strip">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></svg>
+                </div>
+                <div>
+                    <h3>Recycle Your Waste</h3>
+                    <p>Dispose of recyclables and earn points.</p>
+                </div>
+            </div>
+            <div class="feature-item feature-mid">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" /><circle cx="12" cy="8" r="6" /></svg>
+                </div>
+                <div>
+                    <h3>Earn Points</h3>
+                    <p>Get points for every item you recycle.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg>
+                </div>
+                <div>
+                    <h3>Get Rewards</h3>
+                    <p>Exchange points for exciting rewards.</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="rewards-section">
+            <div class="section-head">
+                <h2>Your Rewards Await!</h2>
+                <p>Redeem your points for amazing rewards.</p>
+            </div>
+
+            <div class="rewards-grid">
+                <div class="reward-card">
+                    <div class="reward-preview reward-orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>
+                    </div>
+                    <h4>Gift Cards</h4>
+                    <p>Shop with popular gift cards.</p>
+                </div>
+                <div class="reward-card">
+                    <div class="reward-preview reward-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" /></svg>
+                    </div>
+                    <h4>Eco Gadgets</h4>
+                    <p>Sustainable products &amp; gadgets.</p>
+                </div>
+                <div class="reward-card">
+                    <div class="reward-preview reward-red">
+                        <span class="discount-badge">20% OFF</span>
+                    </div>
+                    <h4>Discount Vouchers</h4>
+                    <p>Save on dining, shopping &amp; more.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-panels">
+            <div class="panel panel-green">
+                <div>
+                    <h3>Track Your Progress</h3>
+                    <p>View your recycling stats and points.</p>
+                    <button type="button" class="panel-btn panel-btn-green" @onclick="GoLogin">My Dashboard</button>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="panel-decor panel-decor-green"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>
+            </div>
+            <div class="panel panel-slate">
+                <div>
+                    <h3>Eco Tips &amp; News</h3>
+                    <p>Learn how to live greener.</p>
+                    <button type="button" class="panel-btn panel-btn-slate" @onclick="ShowEcoTips">Read Tips</button>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="panel-decor panel-decor-slate"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.25 12 13 13 12" /></svg>
+            </div>
+        </div>
+    </main>
+
+    <footer class="eco-footer">
+        <div class="footer-inner">
+            <div class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5" /><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12" /><path d="m14 16-3 3 3 3" /><path d="M8.293 13.596 7.196 9.5 3.1 10.598" /><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843" /><path d="m13.378 9.633 4.096 1.098 1.097-4.096" /></svg>
+                Reduce Waste
+            </div>
+            <div class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" /></svg>
+                Earn Points
+            </div>
+            <div class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><rect x="3" y="8" width="18" height="4" rx="1" /><path d="M12 8v13" /><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" /><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" /></svg>
+                Get Rewards
+            </div>
+        </div>
+    </footer>
+
+    @if (ShowTips)
+    {
+        <div class="modal-backdrop" @onclick="HideEcoTips">
+            <div class="modal-card" @onclick:stopPropagation="true">
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.25 12 13 13 12" /></svg>
+                    </div>
+                    <h1>Eco Tips</h1>
+                    <p>Simple ways to help the planet</p>
+                </div>
+                <div class="tips-list">
+                    <div class="tip">
+                        <h4>Proper Sorting</h4>
+                        <p>Always rinse your plastic bottles before recycling to prevent contamination.</p>
+                    </div>
+                    <div class="tip">
+                        <h4>Reduce &amp; Reuse</h4>
+                        <p>Switch to reusable bags and containers to minimize the amount of waste generated.</p>
+                    </div>
+                    <div class="tip">
+                        <h4>Energy Saving</h4>
+                        <p>Unplug electronics when not in use to reduce phantom energy consumption.</p>
+                    </div>
+                </div>
+                <button type="button" class="cta-primary modal-confirm" @onclick="HideEcoTips">Got it!</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool MenuOpen { get; set; }
+    private bool ShowTips { get; set; }
+
+    private void ToggleMenu() => MenuOpen = !MenuOpen;
+
+    private void CloseMenu() => MenuOpen = false;
+
+    private void GoHome()
+    {
+        CloseMenu();
+        Nav.NavigateTo("/", forceLoad: false);
+    }
+
+    private void GoLogin()
+    {
+        CloseMenu();
+        Nav.NavigateTo("/login");
+    }
+
+    private void GoRegister()
+    {
+        CloseMenu();
+        Nav.NavigateTo("/login");
+    }
+
+    private void ShowEcoTips() => ShowTips = true;
+
+    private void HideEcoTips() => ShowTips = false;
+
+    // Already signed-in users go to their dashboard; guests keep seeing this page.
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            if (user.Identity?.IsAuthenticated != true)
+                return;
+
+            var role = user.FindFirst(ClaimTypes.Role)?.Value;
+            if (role == "User")
+                Nav.NavigateTo("/user-dashboard", replace: true);
+            else if (role == "Admin")
+                Nav.NavigateTo("/admin-dashboard", replace: true);
+        }
+        catch
+        {
+            // Stay on landing if auth state is unavailable
+        }
+    }
+
+}
