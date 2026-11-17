@@ -1,0 +1,65 @@
+@page "/"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using RVMMonitoringSystem.Client.Components
+@using RVMMonitoringSystem.Client.Components.Auth
+@layout Layout.LoginLayout
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthStateProvider
+
+<LoadingSpinner IsVisible="@(!_checked)" />
+
+@if (_checked && !_isAuthenticated)
+{
+    @* Public EcoReward home (converted from index.php) *@
+    <EcoRewardLanding />
+}
+
+@code {
+    private bool _checked;
+    private bool _isAuthenticated;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated == true)
+            {
+                _isAuthenticated = true;
+                var role = user.FindFirst(ClaimTypes.Role)?.Value;
+
+                if (role == "User")
+                {
+                    Nav.NavigateTo("/user-dashboard", replace: true);
+                }
+                else if (role == "Admin")
+                {
+                    Nav.NavigateTo("/admin-dashboard", replace: true);
+                }
+                else
+                {
+                    Nav.NavigateTo("/login", replace: true);
+                }
+            }
+            else
+            {
+                // Guests stay on "/" and see the EcoReward landing
+                _isAuthenticated = false;
+            }
+        }
+        catch
+        {
+            _isAuthenticated = false;
+        }
+
+        await Task.Delay(500);
+        _checked = true;
+        StateHasChanged();
+    }
+}
