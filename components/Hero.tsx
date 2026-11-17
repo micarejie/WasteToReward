@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/BrandIcons";
+import { NameMark } from "@/components/NameMark";
 import { container, iconButton, primaryButton, secondaryButton } from "@/lib/styles";
 import { safeAssetUrl, safeExternalUrl } from "@/lib/utils";
 import type { Profile } from "@/types/portfolio";
@@ -9,7 +10,6 @@ export function Hero({ profile }: { profile: Profile }) {
   const resume = safeAssetUrl(profile.resume_url);
   const github = safeExternalUrl(profile.github_url);
   const linkedin = safeExternalUrl(profile.linkedin_url);
-  const portrait = safeAssetUrl(profile.avatar_url);
 
   return (
     <section className={container + " grid items-center gap-12 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:py-24"}>
@@ -52,17 +52,7 @@ export function Hero({ profile }: { profile: Profile }) {
         </div>
       </div>
       <div className="relative mx-auto w-full max-w-sm">
-        <div className="absolute inset-6 rounded-full bg-primary-soft blur-2xl" aria-hidden="true" />
-        <div className="relative aspect-square overflow-hidden rounded-full border-8 border-surface shadow-card">
-          {portrait ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={portrait} alt={`Portrait of ${profile.full_name}`} className="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-primary-soft text-4xl font-semibold text-heading">
-              {profile.full_name.slice(0, 1)}
-            </div>
-          )}
-        </div>
+        <NameMark name={profile.full_name} className="aspect-square" />
         {profile.motto ? (
           <p className="absolute -bottom-2 right-2 max-w-40 text-right font-script text-2xl leading-tight text-heading sm:text-3xl">
             {profile.motto}

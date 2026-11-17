@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { GithubIcon } from "@/components/BrandIcons";
 import { ContactForm } from "@/components/ContactForm";
+import { NameMark } from "@/components/NameMark";
 import { safeAssetUrl, safeExternalUrl } from "@/lib/utils";
 import type { BlogPost, Certificate, Profile, Project } from "@/types/portfolio";
 
@@ -47,7 +48,6 @@ export function HomeExperience({
     });
   }, [profile.skills]);
   const [skillIndex, setSkillIndex] = useState(0);
-  const portrait = safeAssetUrl(profile.avatar_url);
   const resume = safeAssetUrl(profile.resume_url);
   const github = safeExternalUrl(profile.github_url);
   const linkedin = safeExternalUrl(profile.linkedin_url);
@@ -108,21 +108,11 @@ export function HomeExperience({
             </a>
           </div>
         </div>
-        {portrait ? (
-          <div className="glow-frame mx-auto aspect-square w-full max-w-md overflow-hidden rounded-[2rem] bg-surface">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={portrait} alt={`Portrait of ${profile.full_name}`} className="h-full w-full object-cover" />
-          </div>
-        ) : null}
+        <NameMark name={profile.full_name} className="mx-auto aspect-square max-w-md" />
       </section>
 
       <section id="about" className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
-        {portrait ? (
-          <div className="glow-frame mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden rounded-[2rem]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={portrait} alt="" className="h-full w-full object-cover" />
-          </div>
-        ) : null}
+        <NameMark name={profile.full_name} size="aside" className="mx-auto aspect-[3/4] max-w-sm" />
         <div>
           <h2 className="section-title">Introduction</h2>
           <div className="mt-6 space-y-4 text-sm leading-7 text-foreground/90 sm:text-base">
