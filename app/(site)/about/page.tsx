@@ -4,6 +4,7 @@ import { Download, Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/BrandIcons";
 import { EducationTimeline } from "@/components/EducationTimeline";
 import { EmptyState, ErrorState } from "@/components/ErrorState";
+import { NameMark } from "@/components/NameMark";
 import { Skills } from "@/components/Skills";
 import { getContentMode, getProfile } from "@/lib/data/repository";
 import { container, secondaryButton } from "@/lib/styles";
@@ -33,16 +34,12 @@ export default async function AboutPage() {
     const resume = safeAssetUrl(profile.resume_url);
     const github = safeExternalUrl(profile.github_url);
     const linkedin = safeExternalUrl(profile.linkedin_url);
-    const portrait = safeAssetUrl(profile.avatar_url);
 
     return (
       <div className={`${container} py-14`}>
         <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            {portrait ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={portrait} alt={`Portrait of ${profile.full_name}`} className="aspect-square w-full max-w-sm rounded-[2rem] object-cover" />
-            ) : null}
+            <NameMark name={profile.full_name} size="aside" className="aspect-square max-w-sm" />
           </div>
           <div>
             <p className="text-sm font-medium text-primary">About</p>

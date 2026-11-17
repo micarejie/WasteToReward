@@ -15,7 +15,7 @@ The sample content is a starting point, not a finished biography.
 - Skill levels are an honest student self-assessment. Change them only if they match your own experience.
 - Two certificate rows are labeled as samples and are not featured. Delete them and add certificates you actually earned. Do not keep placeholder credentials.
 - The resume at `public/resume.pdf` is a sample. Replace the file, or upload a PDF from the profile editor once Supabase Storage is connected.
-- The portrait at `public/images/profile.jpg` is a generated stand-in. Replace it with your own photo.
+- The public site shows your name as a wordmark instead of a profile photo. You can still upload an avatar in `/admin/profile` for storage, but the homepage and about views use the name mark.
 - The homepage types “I am a …” from the profile roles. Edit those roles, one per line, at `/admin/profile`.
 
 ## Prerequisites
