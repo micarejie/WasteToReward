@@ -1,0 +1,111 @@
+@if (Visible)
+{
+    <div class="modal-backdrop" @onclick="Close">
+        <div class="modal-card" @onclick:stopPropagation="true">
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-2">
+                    <IconRecycle Class="w-6 h-6 text-green-600" />
+                </div>
+                <h1 class="text-xl font-bold text-slate-900">EcoReward</h1>
+                <p class="text-xs text-slate-500">Turn waste into rewards</p>
+            </div>
+
+            <EditForm Model="model" OnValidSubmit="Submit" class="text-left mt-4 space-y-3">
+                <DataAnnotationsValidator />
+
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-slate-900">Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <IconMail Class="w-4 h-4 text-slate-400" />
+                        </div>
+                        <InputText @bind-Value="model.Email"
+                                   type="email"
+                                   placeholder="Enter your email"
+                                   class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none" />
+                    </div>
+                    <ValidationMessage For="() => model.Email" class="text-xs text-red-500" />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold mb-1 text-slate-900">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <IconLock Class="w-4 h-4 text-slate-400" />
+                        </div>
+                        <InputText @bind-Value="model.Password"
+                                   type="password"
+                                   placeholder="Enter your password"
+                                   class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none" />
+                    </div>
+                    <ValidationMessage For="() => model.Password" class="text-xs text-red-500" />
+                </div>
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <p class="text-xs text-red-600">@errorMessage</p>
+                }
+
+                <button type="submit"
+                        class="w-full bg-green-600 text-white py-2.5 rounded-lg font-bold hover:bg-green-700 transition"
+                        disabled="@busy">
+                    @(busy ? "Signing in..." : "Sign In")
+                </button>
+            </EditForm>
+
+            <p class="text-xs text-center text-slate-500 mt-3">
+                No account?
+                <button type="button" class="text-green-600 font-semibold" @onclick="SwitchToRegister">Register</button>
+            </p>
+
+            <button type="button" class="modal-close" @onclick="Close" aria-label="Close">×</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback OnSwitchToRegister { get; set; }
+    [Parameter] public EventCallback OnSuccess { get; set; }
+
+    private readonly LoginModel model = new();
+    private bool busy;
+    private string? errorMessage;
+
+    private async Task Close() => await OnClose.InvokeAsync();
+    private async Task SwitchToRegister() => await OnSwitchToRegister.InvokeAsync();
+
+    private async Task Submit()
+    {
+        busy = true;
+        errorMessage = null;
+
+        try
+        {
+            // TODO: replace with your real auth call (API / Identity / existing auth.php equivalent).
+            // Example: await AuthService.LoginAsync(model.Email, model.Password);
+            await Task.Delay(200);
+            await OnSuccess.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private sealed class LoginModel
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required]
+        [System.ComponentModel.DataAnnotations.MinLength(6)]
+        public string Password { get; set; } = string.Empty;
+    }
+}
