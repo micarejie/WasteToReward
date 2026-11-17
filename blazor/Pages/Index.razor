@@ -1,8 +1,9 @@
 @page "/"
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @using RVMMonitoringSystem.Client.Components
 @using RVMMonitoringSystem.Client.Components.Auth
-@layout Layout.EmptyLayout
+@layout Layout.LoginLayout
 @inject NavigationManager Nav
 @inject AuthenticationStateProvider AuthStateProvider
 
@@ -23,30 +24,37 @@
         if (!firstRender)
             return;
 
-        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (user.Identity?.IsAuthenticated == true)
+        try
         {
-            _isAuthenticated = true;
-            var role = user.FindFirst(ClaimTypes.Role)?.Value;
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
 
-            if (role == "User")
+            if (user.Identity?.IsAuthenticated == true)
             {
-                Nav.NavigateTo("/user-dashboard", replace: true);
-            }
-            else if (role == "Admin")
-            {
-                Nav.NavigateTo("/admin-dashboard", replace: true);
+                _isAuthenticated = true;
+                var role = user.FindFirst(ClaimTypes.Role)?.Value;
+
+                if (role == "User")
+                {
+                    Nav.NavigateTo("/user-dashboard", replace: true);
+                }
+                else if (role == "Admin")
+                {
+                    Nav.NavigateTo("/admin-dashboard", replace: true);
+                }
+                else
+                {
+                    Nav.NavigateTo("/login", replace: true);
+                }
             }
             else
             {
-                Nav.NavigateTo("/login", replace: true);
+                // Guests stay on "/" and see the EcoReward landing
+                _isAuthenticated = false;
             }
         }
-        else
+        catch
         {
-            // Guests stay on "/" and see the EcoReward landing (from index.php)
             _isAuthenticated = false;
         }
 

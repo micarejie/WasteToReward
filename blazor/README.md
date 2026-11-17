@@ -6,35 +6,35 @@ Converted from `index.php` and wired into your existing auth `Index.razor`.
 
 | This folder | Put it here |
 | --- | --- |
-| `Pages/Index.razor` | Replace your current `Pages/Index.razor` (or merge) |
+| `Pages/Index.razor` | **Replace** your current `Pages/Index.razor` |
 | `Components/EcoRewardLanding.razor` | `Components/EcoRewardLanding.razor` |
-| `Components/EcoRewardLanding.razor.css` | Next to the component (scoped CSS) |
-| `Layout/EmptyLayout.razor` | `Layout/EmptyLayout.razor` |
+| `Components/EcoRewardLanding.razor.css` | Same folder as the `.razor` file (required) |
+
+`Layout/EmptyLayout.razor` is optional. `Index.razor` uses your existing `Layout.LoginLayout`.
+
+## Required for a successful build / publish
+
+1. Copy **both** `EcoRewardLanding.razor` **and** `EcoRewardLanding.razor.css`.
+2. Do **not** leave two pages with `@page "/"` (only one `Index.razor`).
+3. Keep your existing `LoadingSpinner` and `Layout.LoginLayout`.
+4. Publish the **host/server** project if this is a Blazor WebAssembly hosted app — not only `.Client` (unless you intentionally publish a standalone WASM client).
 
 ## How it connects
 
 1. `@page "/"` still runs your auth check first.
-2. **Authenticated** users are redirected the same way as before (`/user-dashboard`, `/admin-dashboard`, or `/login`).
-3. **Guests** stay on `/` and see `EcoRewardLanding` (the old PHP home page).
-4. Sign In / Register / Join Now / My Dashboard navigate to `/login` or `/register` instead of PHP `auth.php` + SweetAlert.
+2. **Authenticated** users redirect to `/user-dashboard`, `/admin-dashboard`, or `/login`.
+3. **Guests** stay on `/` and see `EcoRewardLanding`.
+4. Sign In / Join Now / My Dashboard go to `/login`.
 
-## Routes used by the landing
+## Common publish / build errors
 
-Ensure these routes exist (or change the `href`s in `EcoRewardLanding.razor`):
+| Error | Fix |
+| --- | --- |
+| `EcoRewardLanding` could not be found | Copy the component into `Components/` and rebuild |
+| `EmptyLayout` could not be found | You don't need it — use the updated `Index.razor` that uses `LoginLayout` |
+| Ambiguous routes / duplicate `@page "/"` | Remove the old Index or the extra page with `@page "/"` |
+| Publish Client but site 404 / blank | Publish the Server/Host project, or set the correct `<base href="..." />` |
 
-- `/login`
-- `/register`
-- `/about`
-- `/rewards`
-- `/contact`
-- `/learn-more`
+## If it still fails
 
-If you do not have a register page yet, point `GoRegister` at `/login`.
-
-## Optional CSS font
-
-Add Inter in `index.html` / `App.razor` head if you want the same font as the PHP page:
-
-```html
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-```
+Paste the **exact** Error List / Output window text (or a screenshot of the publish dialog error) so it can be fixed precisely.

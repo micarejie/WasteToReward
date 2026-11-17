@@ -1,5 +1,4 @@
 @* EcoReward public landing — converted from index.php *@
-@namespace RVMMonitoringSystem.Client.Components
 @inject NavigationManager Nav
 
 <div class="eco-landing @(MenuOpen ? "menu-open" : null)">
@@ -215,7 +214,8 @@
     private void GoRegister()
     {
         CloseMenu();
-        Nav.NavigateTo("/register");
+        // Use /login if your app has no /register page yet
+        Nav.NavigateTo("/login");
     }
 
     private void ShowEcoTips() => ShowTips = true;
