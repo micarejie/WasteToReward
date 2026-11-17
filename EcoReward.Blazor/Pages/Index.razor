@@ -4,257 +4,446 @@
 
 <PageTitle>EcoReward | Home</PageTitle>
 
-<div id="nav-overlay" class="@(menuOpen ? "active" : null)" @onclick="CloseMenu"></div>
+<style>
+    :root {
+        --primary-green: #22c55e;
+        --primary-dark: #16a34a;
+        --bg-light: #f8fafc;
+        --white: #ffffff;
+        --text-dark: #1e293b;
+        --text-muted: #64748b;
+    }
 
-<nav>
-    <a href="/" class="logo" @onclick="CloseMenu">
-        <div class="logo-icon">
-            <IconRecycle Class="w-6 h-6 text-green-600" />
+    .eco-page * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    .eco-page { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; min-height: 100vh; }
+
+    .eco-nav {
+        background: var(--white);
+        padding: 1rem 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .eco-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--text-dark);
+        text-decoration: none;
+    }
+
+    .eco-logo-icon {
+        background: #dcfce7;
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+    }
+
+    .eco-nav-links {
+        display: flex;
+        gap: 3rem;
+        list-style: none;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .eco-nav-links a {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .eco-nav-links a:hover { color: var(--primary-green); }
+
+    .eco-auth { display: flex; gap: 1rem; }
+
+    .eco-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font: inherit;
+        display: inline-block;
+    }
+
+    .eco-btn-login { color: var(--text-muted); }
+    .eco-btn-login:hover { color: var(--text-dark); background-color: #f1f5f9; }
+
+    .eco-btn-register {
+        background: var(--primary-green);
+        color: white;
+    }
+
+    .eco-btn-register:hover { background: var(--primary-dark); }
+
+    .eco-mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-dark);
+        font-size: 1.5rem;
+    }
+
+    .eco-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 40;
+    }
+
+    .eco-overlay.active { display: block; }
+
+    .eco-hero {
+        background: linear-gradient(to bottom right, #f0fdf4, #eff6ff);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        border: 1px solid #dcfce7;
+    }
+
+    .eco-hero h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1.15;
+        margin: 0 0 1rem;
+    }
+
+    .eco-hero .green { color: var(--primary-dark); }
+    .eco-hero p { font-size: 1.125rem; color: #475569; margin: 0 0 1.5rem; }
+
+    .eco-hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .eco-cta-primary {
+        background: var(--primary-dark);
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .eco-cta-secondary {
+        background: white;
+        color: #334155;
+        padding: 0.75rem 2rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        border: 1px solid #e2e8f0;
+        text-decoration: none;
+    }
+
+    .eco-steps {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid #f1f5f9;
+    }
+
+    .eco-step { display: flex; align-items: center; gap: 1rem; }
+    .eco-step-icon {
+        background: #dcfce7;
+        color: var(--primary-dark);
+        padding: 1rem;
+        border-radius: 0.75rem;
+        font-size: 1.5rem;
+    }
+
+    .eco-rewards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .eco-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: 1px solid #f1f5f9;
+        text-align: center;
+    }
+
+    .eco-card-art {
+        height: 12rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+    }
+
+    .eco-panels {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    .eco-panel {
+        padding: 2rem;
+        border-radius: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .eco-panel-green {
+        background: #f0fdf4;
+        border: 1px solid #dcfce7;
+    }
+
+    .eco-panel-slate {
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+    }
+
+    .eco-panel button {
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+    }
+
+    .eco-footer {
+        background: white;
+        border-top: 1px solid #f1f5f9;
+        padding: 1.5rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .eco-main {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    @@media (min-width: 768px) {
+        .eco-hero {
+            flex-direction: row;
+            padding: 4rem;
+        }
+
+        .eco-hero h1 { font-size: 3.75rem; }
+        .eco-hero > div { flex: 1; }
+
+        .eco-steps { grid-template-columns: repeat(3, 1fr); }
+        .eco-rewards { grid-template-columns: repeat(3, 1fr); }
+        .eco-panels { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @@media (max-width: 768px) {
+        .eco-mobile-toggle { display: block; z-index: 60; }
+        .eco-auth { display: none; }
+
+        .eco-nav-links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 75%;
+            height: 100vh;
+            background: white;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2.5rem;
+            z-index: 50;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: right 0.4s ease;
+        }
+
+        .eco-nav-links.open { right: 0; }
+
+        .eco-nav-links a { font-size: 1.25rem; }
+        .eco-mobile-auth { display: flex; flex-direction: column; width: 80%; gap: 1rem; }
+    }
+
+    @@media (min-width: 769px) {
+        .eco-mobile-auth { display: none; }
+    }
+</style>
+
+<div class="eco-page">
+    <div class="eco-overlay @(menuOpen ? "active" : null)" @onclick="CloseMenu"></div>
+
+    <nav class="eco-nav">
+        <a href="/" class="eco-logo" @onclick="CloseMenu">
+            <div class="eco-logo-icon" style="font-weight:800;color:#16a34a;">ER</div>
+            EcoReward
+        </a>
+
+        <ul class="eco-nav-links @(menuOpen ? "open" : null)">
+            <li><a href="/" @onclick="CloseMenu">Home</a></li>
+            <li><a href="/about" @onclick="CloseMenu">About</a></li>
+            <li><a href="/rewards" @onclick="CloseMenu">Rewards</a></li>
+            <li><a href="/contact" @onclick="CloseMenu">Contact</a></li>
+            <li class="eco-mobile-auth">
+                <button type="button" class="eco-btn eco-btn-login" @onclick="GoToLogin">Sign In</button>
+                <button type="button" class="eco-btn eco-btn-register" @onclick="GoToLogin">Register</button>
+            </li>
+        </ul>
+
+        <div class="eco-auth">
+            <button type="button" class="eco-btn eco-btn-login" @onclick="GoToLogin">Sign In</button>
+            <button type="button" class="eco-btn eco-btn-register" @onclick="GoToLogin">Register</button>
         </div>
-        EcoReward
-    </a>
 
-    <ul class="nav-links @(menuOpen ? "active" : null)" id="navMenu">
-        <li><a href="/" @onclick="CloseMenu">Home</a></li>
-        <li><a href="/about" @onclick="CloseMenu">About</a></li>
-        <li><a href="/rewards" @onclick="CloseMenu">Rewards</a></li>
-        <li><a href="/contact" @onclick="CloseMenu">Contact</a></li>
-        <li class="md:hidden mobile-auth">
-            <button type="button" class="btn btn-login w-full border border-slate-100" @onclick="OpenLoginFromMenu">Sign In</button>
-            <button type="button" class="btn btn-register w-full" @onclick="OpenRegisterFromMenu">Register</button>
-        </li>
-    </ul>
+        <button type="button" class="eco-mobile-toggle" @onclick="ToggleMenu" aria-label="Toggle menu">
+            @(menuOpen ? "✕" : "☰")
+        </button>
+    </nav>
 
-    <div class="auth-buttons">
-        <button type="button" class="btn btn-login" @onclick="OpenLogin">Sign In</button>
-        <button type="button" class="btn btn-register" @onclick="OpenRegister">Register</button>
-    </div>
-
-    <button type="button" class="mobile-toggle" @onclick="ToggleMenu" aria-label="Toggle menu">
-        @if (menuOpen)
-        {
-            <IconX Class="w-8 h-8" />
-        }
-        else
-        {
-            <IconMenu Class="w-8 h-8" />
-        }
-    </button>
-</nav>
-
-<main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
-    <section class="relative bg-gradient-to-br from-green-50 to-blue-50 rounded-3xl overflow-hidden p-8 md:p-16 flex flex-col md:flex-row items-center gap-8 border border-green-100">
-        <div class="flex-1 space-y-6 z-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-800 leading-tight">
-                Turn Your <span class="text-green-600">Waste</span> <br />Into <span class="text-green-600">Rewards!</span>
-            </h1>
-            <p class="text-lg text-slate-600">Recycle &amp; Earn Points for Great Rewards</p>
-            <div class="flex gap-4">
-                <button type="button" class="bg-green-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg" @onclick="OpenRegister">
-                    Join Now
-                </button>
-                <a href="/learn-more" class="inline-block bg-white text-slate-700 px-8 py-3 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition shadow-sm">
-                    Learn More
-                </a>
+    <main class="eco-main">
+        <section class="eco-hero">
+            <div>
+                <h1>
+                    Turn Your <span class="green">Waste</span><br />
+                    Into <span class="green">Rewards!</span>
+                </h1>
+                <p>Recycle &amp; Earn Points for Great Rewards</p>
+                <div class="eco-hero-actions">
+                    <button type="button" class="eco-cta-primary" @onclick="GoToLogin">Join Now</button>
+                    <a href="/learn-more" class="eco-cta-secondary">Learn More</a>
+                </div>
             </div>
-        </div>
-        <div class="flex-1 relative flex justify-center">
-            <div class="relative w-full max-w-md">
+            <div>
                 <img src="https://img.freepik.com/free-vector/recycling-concept-illustration_114360-9851.jpg"
                      alt="Recycling Illustration"
-                     class="rounded-2xl w-full" />
+                     style="width:100%;border-radius:1rem;" />
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-        <div class="flex items-center gap-4">
-            <div class="bg-green-100 p-4 rounded-xl text-green-600">
-                <IconTrash Class="w-8 h-8" />
-            </div>
-            <div>
-                <h3 class="font-bold text-slate-800">Recycle Your Waste</h3>
-                <p class="text-sm text-slate-500">Dispose of recyclables and earn points.</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-4 border-x-0 md:border-x border-slate-100 px-0 md:px-8">
-            <div class="bg-green-100 p-4 rounded-xl text-green-600">
-                <IconAward Class="w-8 h-8" />
-            </div>
-            <div>
-                <h3 class="font-bold text-slate-800">Earn Points</h3>
-                <p class="text-sm text-slate-500">Get points for every item you recycle.</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-4">
-            <div class="bg-green-100 p-4 rounded-xl text-green-600">
-                <IconGift Class="w-8 h-8" />
-            </div>
-            <div>
-                <h3 class="font-bold text-slate-800">Get Rewards</h3>
-                <p class="text-sm text-slate-500">Exchange points for exciting rewards.</p>
-            </div>
-        </div>
-    </div>
-
-    <section class="space-y-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold text-slate-800">Your Rewards Await!</h2>
-            <p class="text-slate-500">Redeem your points for amazing rewards.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-orange-50 rounded-xl mb-4 flex items-center justify-center">
-                    <IconCreditCard Class="w-16 h-16 text-orange-400" />
+        <div class="eco-steps">
+            <div class="eco-step">
+                <div class="eco-step-icon">1</div>
+                <div>
+                    <h3 style="margin:0;">Recycle Your Waste</h3>
+                    <p style="margin:0;font-size:0.875rem;color:#64748b;">Dispose of recyclables and earn points.</p>
                 </div>
-                <h4 class="font-bold text-center">Gift Cards</h4>
-                <p class="text-sm text-slate-500 text-center">Shop with popular gift cards.</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-blue-50 rounded-xl mb-4 flex items-center justify-center">
-                    <IconHeadphones Class="w-16 h-16 text-blue-400" />
+            <div class="eco-step">
+                <div class="eco-step-icon">2</div>
+                <div>
+                    <h3 style="margin:0;">Earn Points</h3>
+                    <p style="margin:0;font-size:0.875rem;color:#64748b;">Get points for every item you recycle.</p>
                 </div>
-                <h4 class="font-bold text-center">Eco Gadgets</h4>
-                <p class="text-sm text-slate-500 text-center">Sustainable products &amp; gadgets.</p>
             </div>
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-red-50 rounded-xl mb-4 flex items-center justify-center">
-                    <div class="text-red-400 font-black text-4xl">20% OFF</div>
+            <div class="eco-step">
+                <div class="eco-step-icon">3</div>
+                <div>
+                    <h3 style="margin:0;">Get Rewards</h3>
+                    <p style="margin:0;font-size:0.875rem;color:#64748b;">Exchange points for exciting rewards.</p>
                 </div>
-                <h4 class="font-bold text-center">Discount Vouchers</h4>
-                <p class="text-sm text-slate-500 text-center">Save on dining, shopping &amp; more.</p>
             </div>
         </div>
-    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-12">
-        <div class="bg-green-50 p-8 rounded-3xl border border-green-100 flex justify-between items-center">
-            <div>
-                <h3 class="text-xl font-bold text-slate-800">Track Your Progress</h3>
-                <p class="text-slate-600 mb-4 text-sm">View your recycling stats and points.</p>
-                <button type="button"
-                        class="bg-green-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-800 transition-colors"
-                        @onclick="OpenLogin">
-                    My Dashboard
-                </button>
+        <section>
+            <div style="text-align:center;margin-bottom:2rem;">
+                <h2 style="margin:0 0 0.5rem;font-size:1.875rem;">Your Rewards Await!</h2>
+                <p style="margin:0;color:#64748b;">Redeem your points for amazing rewards.</p>
             </div>
-            <IconBarChart Class="w-16 h-16 text-green-200" />
-        </div>
-        <div class="bg-slate-100 p-8 rounded-3xl border border-slate-200 flex justify-between items-center">
-            <div>
-                <h3 class="text-xl font-bold text-slate-800">Eco Tips &amp; News</h3>
-                <p class="text-slate-600 mb-4 text-sm">Learn how to live greener.</p>
-                <button type="button"
-                        class="bg-slate-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-slate-800 transition-colors"
-                        @onclick="OpenEcoTips">
-                    Read Tips
-                </button>
+            <div class="eco-rewards">
+                <div class="eco-card">
+                    <div class="eco-card-art" style="background:#fff7ed;color:#ea580c;font-weight:800;">Cards</div>
+                    <h4>Gift Cards</h4>
+                    <p style="font-size:0.875rem;color:#64748b;">Shop with popular gift cards.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="eco-card-art" style="background:#eff6ff;color:#2563eb;font-weight:800;">Gear</div>
+                    <h4>Eco Gadgets</h4>
+                    <p style="font-size:0.875rem;color:#64748b;">Sustainable products &amp; gadgets.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="eco-card-art" style="background:#fef2f2;color:#f87171;font-weight:900;">20% OFF</div>
+                    <h4>Discount Vouchers</h4>
+                    <p style="font-size:0.875rem;color:#64748b;">Save on dining, shopping &amp; more.</p>
+                </div>
             </div>
-            <IconLeaf Class="w-16 h-16 text-slate-300" />
+        </section>
+
+        <div class="eco-panels">
+            <div class="eco-panel eco-panel-green">
+                <div>
+                    <h3 style="margin:0 0 0.5rem;">Track Your Progress</h3>
+                    <p style="margin:0 0 1rem;font-size:0.875rem;color:#475569;">View your recycling stats and points.</p>
+                    <button type="button" style="background:#15803d;" @onclick="GoToLogin">My Dashboard</button>
+                </div>
+                <div style="font-size:2rem;opacity:0.35;font-weight:800;color:#16a34a;">Stats</div>
+            </div>
+            <div class="eco-panel eco-panel-slate">
+                <div>
+                    <h3 style="margin:0 0 0.5rem;">Eco Tips &amp; News</h3>
+                    <p style="margin:0 0 1rem;font-size:0.875rem;color:#475569;">Learn how to live greener.</p>
+                    <button type="button" style="background:#334155;" @onclick="ShowTips">Read Tips</button>
+                </div>
+                <div style="font-size:2rem;opacity:0.35;font-weight:800;color:#64748b;">Tips</div>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<footer class="bg-white border-t border-slate-100 py-6">
-    <div class="max-w-7xl mx-auto px-4 flex justify-center gap-12 text-sm font-semibold text-slate-500 flex-wrap">
-        <div class="flex items-center gap-2"><IconRecycle Class="w-4 h-4 text-green-500" /> Reduce Waste</div>
-        <div class="flex items-center gap-2"><IconDollar Class="w-4 h-4 text-green-500" /> Earn Points</div>
-        <div class="flex items-center gap-2"><IconGift Class="w-4 h-4 text-green-500" /> Get Rewards</div>
-    </div>
-</footer>
+    <footer class="eco-footer">
+        Reduce Waste · Earn Points · Get Rewards
+    </footer>
+</div>
 
-<LoginModal Visible="showLogin"
-            OnClose="CloseLogin"
-            OnSwitchToRegister="SwitchToRegister"
-            OnSuccess="HandleLoginSuccess" />
-
-<RegisterModal Visible="showRegister"
-               OnClose="CloseRegister"
-               OnSwitchToLogin="SwitchToLogin"
-               OnSuccess="HandleRegisterSuccess" />
-
-<EcoTipsModal Visible="showEcoTips" OnClose="CloseEcoTips" />
-
-@if (!string.IsNullOrEmpty(toastMessage))
+@if (showTips)
 {
-    <div class="toast-success">@toastMessage</div>
+    <div class="eco-overlay active" style="display:flex;align-items:center;justify-content:center;z-index:2000;" @onclick="HideTips">
+        <div style="background:white;width:90%;max-width:400px;border-radius:1rem;padding:1.25rem;position:relative;"
+             @onclick:stopPropagation="true">
+            <h3 style="margin-top:0;">Eco Tips</h3>
+            <p><strong>Proper Sorting</strong> — Rinse plastic bottles before recycling.</p>
+            <p><strong>Reduce &amp; Reuse</strong> — Use reusable bags and containers.</p>
+            <p><strong>Energy Saving</strong> — Unplug electronics when not in use.</p>
+            <button type="button" class="eco-cta-primary" style="width:100%;" @onclick="HideTips">Got it!</button>
+        </div>
+    </div>
 }
 
 @code {
     private bool menuOpen;
-    private bool showLogin;
-    private bool showRegister;
-    private bool showEcoTips;
-    private string? toastMessage;
-
-    protected override void OnInitialized()
-    {
-        var uri = new Uri(Navigation.Uri);
-        if (uri.Query.Contains("registered", StringComparison.OrdinalIgnoreCase))
-        {
-            toastMessage = "Registration Successful! Please sign in to continue.";
-            showLogin = true;
-            Navigation.NavigateTo("/", replace: true);
-        }
-    }
+    private bool showTips;
 
     private void ToggleMenu() => menuOpen = !menuOpen;
     private void CloseMenu() => menuOpen = false;
+    private void ShowTips() => showTips = true;
+    private void HideTips() => showTips = false;
 
-    private void OpenLogin()
+    // Connects landing page → Login.razor (@page "/login")
+    private void GoToLogin()
     {
-        showRegister = false;
-        showLogin = true;
-    }
-
-    private void OpenRegister()
-    {
-        showLogin = false;
-        showRegister = true;
-    }
-
-    private void OpenLoginFromMenu()
-    {
-        CloseMenu();
-        OpenLogin();
-    }
-
-    private void OpenRegisterFromMenu()
-    {
-        CloseMenu();
-        OpenRegister();
-    }
-
-    private void OpenEcoTips() => showEcoTips = true;
-
-    private void CloseLogin() => showLogin = false;
-    private void CloseRegister() => showRegister = false;
-    private void CloseEcoTips() => showEcoTips = false;
-
-    private void SwitchToRegister()
-    {
-        showLogin = false;
-        showRegister = true;
-    }
-
-    private void SwitchToLogin()
-    {
-        showRegister = false;
-        showLogin = true;
-    }
-
-    private void HandleLoginSuccess()
-    {
-        showLogin = false;
-        // After auth succeeds, go to the protected dashboard.
-        Navigation.NavigateTo("/dashboard");
-    }
-
-    private void HandleRegisterSuccess()
-    {
-        showRegister = false;
-        toastMessage = "Registration Successful! Please sign in to continue.";
-        showLogin = true;
+        menuOpen = false;
+        Navigation.NavigateTo("/login");
     }
 }
